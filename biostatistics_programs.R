@@ -13,13 +13,38 @@
 
 ## First you must set working directory to location w/ file
 
-ranking <- function(national, degree) {
+schoolrank <- function(national= "XX", degree= "XX") {
   
-schools <- read.csv('./Statistics and Biostatistics Programs - Biostatistics.csv')
-## create data frame named 'schools'
-schools <-schools[complete.cases(schools[,'Program.Rank']),]
-## Remove schools with 'NA' Program Rank value
-schools <- schools[order(schools$National.Rank),]
-schools <- schools[schools$BIOSTATISTICS.PhD == 1, ]
-## Remove schools not offering PhDs
-}
+  schools <- read.csv('./Statistics and Biostatistics Programs - Biostatistics.csv')
+  ## create data frame named 'schools'
+ 
+  schools <-schools[complete.cases(schools[,'Program.Rank']),]
+  ## Remove schools with 'NA' Program Rank value
+  
+  schools <- schools[order(schools[,'National.Rank'], schools[,'Name']), ]
+  ## Order 'schools' data frame rows by National Rank in increasing order and then by name
+  
+  if (!any (degree == c('PHD', 'MS')))
+    stop('missing or invalid degree')
+  
+  if (degree == 'PHD')
+  schools <- schools[schools$BIOSTATISTICS.PhD == 1, ]
+  
+  else
+    if (degree == 'MS')
+      schools <- schools[schools$BIOSTATISTICS.Masters == 1, ]
+  ## Remove schools not offering PhDs or Masters based on 'degree' argument selection
+
+  info <- schools[schools$National.Rank == national,]
+  ## Create info data frame subsetting based on 'national' argument given by user
+  
+  options(warn=-1)
+  ## Removes warning message
+  if (lengths(info) == 0)
+    stop('missing or invalid ranking')
+  ## Generates error message when invalid 'national' argument is used
+  
+  else
+  info[,c('Name','State', 'Program.Rank')]
+    
+  }
