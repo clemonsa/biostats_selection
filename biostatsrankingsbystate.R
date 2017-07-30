@@ -16,7 +16,7 @@
 
 ## First you must set working directory to location w/ file
 
-schoolstate <- function(state= "XX", degree= "XX", program = FALSE) {
+schoolstate <- function(state= "XX", degree= "XX", program = FALSE, website = FALSE, chair = FALSE, contact = FALSE) {
   
   schools <- read.csv('./Statistics and Biostatistics Programs - Biostatistics.csv')
   ## create data frame named 'schools'
@@ -51,11 +51,24 @@ schoolstate <- function(state= "XX", degree= "XX", program = FALSE) {
   info <- schools[schools$State == state,]
   ## Create info data frame subsetting based on 'state' argument given by user
   
+  options(warn=-1)
+  
   if (lengths(info) == 0)
     stop('missing Program.Rank value recommend change setting to "TRUE"')
   ## Generates error message when 'Program.Rank' value is NA
   
-  info[,c('Name','National.Rank', 'Program.Rank', 'Type')]
+  if (website == TRUE)
+    info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'WEBSITE')]
+  else
+  if (chair == TRUE)
+      info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'BIOSTATISTICS.CHAIR', 'BIOSTATISTICS.CHAIR.EMAIL')]
+  else
+  if (contact == TRUE)
+    info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'BIOSTATISTICS.ADDITIONAL.CONTACT', 'BIOSTATISTICS.ADDITIONAL.CONTACT.EMAIL')]
+  else
+    info[,c('Name','National.Rank', 'Program.Rank', 'Type')]
   ## Returns value of school(s) names, national ranking, program ranking, and type.
+  ## Also displays additional information including Department Chair name and contact
+  ## based on argument settings chosen by user.
   
   }
