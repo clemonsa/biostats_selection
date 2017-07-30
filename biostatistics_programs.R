@@ -9,7 +9,8 @@
 ## ("https://www.usnews.com/best-colleges?int=994d08") or Regional Universities Category and
 ## Graduate Schools ("https://www.usnews.com/best-graduate-schools") Statistics Program 
 ## category. If schools had both Statistics and Biostatistics Department rankings then 
-## Biostatistics ranking was used. Ranks entered from website on 7/26/2017.
+## Biostatistics ranking was used. "NA" rank values entered as either '999' for under "National.Rank"
+## column. Ranks entered from website on 7/26/2017.
 
 ## First you must set working directory to location w/ file
 
