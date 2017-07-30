@@ -13,13 +13,15 @@
 
 ## First you must set working directory to location w/ file
 
-schoolrank <- function(national= "XX", degree= "XX") {
+schoolrank <- function(national= "XX", degree= "XX", program = FALSE) {
   
   schools <- read.csv('./Statistics and Biostatistics Programs - Biostatistics.csv')
   ## create data frame named 'schools'
  
-  schools <-schools[complete.cases(schools[,'Program.Rank']),]
-  ## Remove schools with 'NA' Program Rank value
+  if (program == FALSE)
+    schools <-schools[complete.cases(schools[,'Program.Rank']),]
+  else
+    ## Remove schools with 'NA' Program Rank value unless 'program' argument is set to 'TRUE'
   
   schools <- schools[order(schools[,'National.Rank'], schools[,'Name']), ]
   ## Order 'schools' data frame rows by National Rank in increasing order and then by name
@@ -46,5 +48,5 @@ schoolrank <- function(national= "XX", degree= "XX") {
   
   else
   info[,c('Name','State', 'Program.Rank')]
-    
+  
   }
