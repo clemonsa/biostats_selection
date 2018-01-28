@@ -1,7 +1,8 @@
 ## Create R function that reads the 'Statistics and Biostatistics Programs - Biostatistics.csv'
 ## file downloaded from www.amstat.org listing schools with Statistics or Biostatics Programs
-## within the United States and returns the 'Name', 'National.Rank', 'Program.Rank' and 'Type'
-## of schools within the 'state' value and degree type ('MS' or 'PHD') provided by user. 
+## within the United States and returns the 'Name', 'National.Rank', 'Program.Rank', 'Type',
+## 'Area', and 'Cost of Living' of schools within the 'state' value and degree type ('MS' or 
+## 'PHD') provided by user. 
 ## File downloaded on 7/26/2017.
 
 ## File was furthered edited to add  "National.Rank" and "Program Rank" columns based
@@ -16,7 +17,7 @@
 
 ## First you must set working directory to location w/ file
 
-schoolstate <- function(state= "XX", degree= "XX", program = FALSE, website = FALSE, chair = FALSE, contact = FALSE) {
+schoolstate <- function(state= "XX", degree= "XX", program = TRUE, website = FALSE, chair = FALSE, contact = FALSE) {
   
   schools <- read.csv('./Statistics and Biostatistics Programs - Biostatistics.csv')
   ## create data frame named 'schools'
@@ -24,7 +25,7 @@ schoolstate <- function(state= "XX", degree= "XX", program = FALSE, website = FA
   if (program == FALSE)
   schools <-schools[complete.cases(schools[,'Program.Rank']),]
   else
-  ## Remove schools with 'NA' Program Rank value unless 'program' argument is set to 'TRUE'
+  ## Remove schools with 'NA' Program Rank value
   
   schools <- schools[order(schools[,'National.Rank'], schools[,'Name']), ]
   ## Order 'schools' data frame rows by National Rank in increasing order and then by name
@@ -45,11 +46,11 @@ schoolstate <- function(state= "XX", degree= "XX", program = FALSE, website = FA
   ## Creates character vector listing unique names of States from 'schools' data frame
   
   if (!any(States == state))
-    stop('missing or invalid state')
-  ## Creates error message if 'state' argument is missing or not misspelled
+    stop('degree not offered or invalid state')
+  ## Creates error message if degree requested is not offered or 'state' argument is missing/misspelled 
   else
   info <- schools[schools$State == state,]
-  ## Create info data frame subsetting based on 'state' argument given by user
+  ## Create 'info' data frame subsetting based on 'state' argument given by user
   
   options(warn=-1)
   
@@ -58,17 +59,17 @@ schoolstate <- function(state= "XX", degree= "XX", program = FALSE, website = FA
   ## Generates error message when 'Program.Rank' value is NA
   
   if (website == TRUE)
-    info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'WEBSITE')]
+    info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'Area', 'Cost.of.Living', 'WEBSITE')]
   else
   if (chair == TRUE)
-      info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'BIOSTATISTICS.CHAIR', 'BIOSTATISTICS.CHAIR.EMAIL')]
+      info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'Area', 'Cost.of.Living', 'BIOSTATISTICS.CHAIR', 'BIOSTATISTICS.CHAIR.EMAIL')]
   else
   if (contact == TRUE)
-    info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'BIOSTATISTICS.ADDITIONAL.CONTACT', 'BIOSTATISTICS.ADDITIONAL.CONTACT.EMAIL')]
+    info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'Area', 'Cost.of.Living', 'BIOSTATISTICS.ADDITIONAL.CONTACT', 'BIOSTATISTICS.ADDITIONAL.CONTACT.EMAIL')]
   else
-    info[,c('Name','National.Rank', 'Program.Rank', 'Type')]
-  ## Returns value of school(s) names, national ranking, program ranking, and type.
-  ## Also displays additional information including Department Chair name and contact
+    info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'Area', 'Cost.of.Living')]
+  ## Returns value of school(s) names, national ranking, program ranking, type, area, and cost of living.
+  ## Also displays additional information including Department Chair name and contact info
   ## based on argument settings chosen by user.
   
   }
