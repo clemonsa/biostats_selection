@@ -17,9 +17,9 @@
 
 ## First you must set working directory to location w/ file
 
-schoolstate <- function(state= "XX", degree= "XX", program = TRUE, website = FALSE, chair = FALSE, contact = FALSE)
-{
-    schools <- read.csv('./Statistics and Biostatistics Programs - Biostatistics.csv')
+schoolstate <- function(state= "XX", degree= "XX", program = TRUE, website = FALSE, chair = FALSE, contact = FALSE) 
+ {
+  schools <- read.csv('./Statistics and Biostatistics Programs - Biostatistics.csv')
   ## create data frame named 'schools'
   
   if (program == FALSE)
@@ -44,19 +44,18 @@ schoolstate <- function(state= "XX", degree= "XX", program = TRUE, website = FAL
   
   States <- levels(factor(schools$State))
   ## Creates character vector listing unique names of States from 'schools' data frame
+   # if (lengths(States) == 0)
+   # stop('missing Program.Rank value recommend change setting to "TRUE"')
+  ## Generates error message when 'Program.Rank' value is NA
   
   if (!any(States == state))
-    stop('degree not offered or invalid state')
+    stop('degree not offered or invalid state, recommend trying again with program argument set to "TRUE"')
   ## Creates error message if degree requested is not offered or 'state' argument is missing/misspelled 
   else
   info <- schools[schools$State == state,]
   ## Create 'info' data frame subsetting based on 'state' argument given by user
   
   options(warn=-1)
-  
-  if (lengths(info) == 0)
-    stop('missing Program.Rank value recommend change setting to "TRUE"')
-  ## Generates error message when 'Program.Rank' value is NA
   
   if (website == TRUE)
     info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'Area', 'Cost.of.Living', 'WEBSITE')]
