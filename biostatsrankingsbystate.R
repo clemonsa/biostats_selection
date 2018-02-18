@@ -17,9 +17,9 @@
 
 ## First you must set working directory to location w/ file
 
-schoolstate <- function(state= "XX", degree= "XX", program = TRUE, website = FALSE, chair = FALSE, contact = FALSE) {
-  
-  schools <- read.csv('./Statistics and Biostatistics Programs - Biostatistics.csv')
+schoolstate <- function(state= "XX", degree= "XX", program = TRUE, website = FALSE, chair = FALSE, contact = FALSE)
+{
+    schools <- read.csv('./Statistics and Biostatistics Programs - Biostatistics.csv')
   ## create data frame named 'schools'
   
   if (program == FALSE)
