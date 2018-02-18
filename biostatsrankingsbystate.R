@@ -1,11 +1,11 @@
-## Create R function that reads the 'Statistics and Biostatistics Programs - Biostatistics.csv'
-## file downloaded from www.amstat.org listing schools with Statistics or Biostatics Programs
-## within the United States and returns the 'Name', 'National.Rank', 'Program.Rank', 'Type',
-## 'Area', and 'Cost of Living' of schools within the 'state' value and degree type ('MS' or 
+## Create R function that reads the 'Biostatistics Programs - Information.csv'
+## file downloaded from www.amstat.org listing schools with Biostatistics Programs
+## within the United States and returns the 'Name', 'National Rank', 'Program Rank', 'Institution Type',
+## 'Area', and 'Cost of Living' of schools within the 'State' and degree type ('MS' or 
 ## 'PHD') provided by user. 
-## File downloaded on 7/26/2017.
+## File downloaded on 2/18/2018.
 
-## File was furthered edited to add  "National.Rank" and "Program Rank" columns based
+## File was furthered edited to add  "NATIONAL.RANK" and "PROGRAM.RANK" columns based
 ## on U.S. News rankings for schools in the National Universities Category 
 ## ("https://www.usnews.com/best-colleges?int=994d08") or Regional Universities Category and
 ## Graduate Schools ("https://www.usnews.com/best-graduate-schools") Statistics Program 
@@ -13,21 +13,21 @@
 ## Biostatistics ranking was used. "NA" rank values entered as either '999' for under "National.Rank"
 ## column. Ranks entered from website on 7/26/2017.
 
-## File url ("https://drive.google.com/file/d/0B--Ray31aygCV0lyZ1pGdURwWm8/view?usp=sharing")
+## File url ("https://drive.google.com/file/d/1QXiIeD3qO_NptdRFgDeVSWLcaridrZJw/view?usp=sharing")
 
 ## First you must set working directory to location w/ file
 
 schoolstate <- function(state= "XX", degree= "XX", program = TRUE, website = FALSE, chair = FALSE, contact = FALSE) 
  {
-  schools <- read.csv('./Statistics and Biostatistics Programs - Biostatistics.csv')
+  schools <- read.csv('./Biostatistics Programs - Information.csv')
   ## create data frame named 'schools'
   
   if (program == FALSE)
-  schools <-schools[complete.cases(schools[,'Program.Rank']),]
+  schools <-schools[complete.cases(schools[,'PROGRAM.RANK']),]
   else
   ## Remove schools with 'NA' Program Rank value
   
-  schools <- schools[order(schools[,'National.Rank'], schools[,'Name']), ]
+  schools <- schools[order(schools[,'NATIONAL.RANK'], schools[,'INSTITUTION']), ]
   ## Order 'schools' data frame rows by National Rank in increasing order and then by name
   
   if (!any (degree == c('PHD', 'MS')))
@@ -42,7 +42,7 @@ schoolstate <- function(state= "XX", degree= "XX", program = TRUE, website = FAL
       schools <- schools[schools$BIOSTATISTICS.Masters == 1, ]
   ## Remove schools not offering PhDs or Masters based on 'degree' argument selection
   
-  States <- levels(factor(schools$State))
+  States <- levels(factor(schools$STATE))
   ## Creates character vector listing unique names of States from 'schools' data frame
    # if (lengths(States) == 0)
    # stop('missing Program.Rank value recommend change setting to "TRUE"')
@@ -52,21 +52,21 @@ schoolstate <- function(state= "XX", degree= "XX", program = TRUE, website = FAL
     stop('degree not offered or invalid state, recommend trying again with program argument set to "TRUE"')
   ## Creates error message if degree requested is not offered or 'state' argument is missing/misspelled 
   else
-  info <- schools[schools$State == state,]
+  info <- schools[schools$STATE == state,]
   ## Create 'info' data frame subsetting based on 'state' argument given by user
   
   options(warn=-1)
   
   if (website == TRUE)
-    info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'Area', 'Cost.of.Living', 'WEBSITE')]
+    info[,c('INSTITUTION','NATIONAL.RANK', 'PROGRAM.RANK', 'INSTITUTION.TYPE', 'AREA', 'COST.OF.LIVING', 'WEBSITE')]
   else
   if (chair == TRUE)
-      info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'Area', 'Cost.of.Living', 'BIOSTATISTICS.CHAIR', 'BIOSTATISTICS.CHAIR.EMAIL')]
+      info[,c('INSTITUTION','NATIONAL.RANK', 'PROGRAM.RANK', 'INSTITUTION.TYPE', 'AREA', 'COST.OF.LIVING', 'CHAIR', 'CHAIR.EMAIL')]
   else
   if (contact == TRUE)
-    info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'Area', 'Cost.of.Living', 'BIOSTATISTICS.ADDITIONAL.CONTACT', 'BIOSTATISTICS.ADDITIONAL.CONTACT.EMAIL')]
+    info[,c('INSTITUTION','NATIONAL.RANK', 'PROGRAM.RANK', 'INSTITUTION.TYPE', 'AREA', 'COST.OF.LIVING', 'ADDITIONAL.CONTACT', 'ADDITIONAL.CONTACT.EMAIL')]
   else
-    info[,c('Name','National.Rank', 'Program.Rank', 'Type', 'Area', 'Cost.of.Living')]
+    info[,c('INSTITUTION','NATIONAL.RANK', 'PROGRAM.RANK', 'INSTITUTION.TYPE', 'AREA', 'COST.OF.LIVING')]
   ## Returns value of school(s) names, national ranking, program ranking, type, area, and cost of living.
   ## Also displays additional information including Department Chair name and contact info
   ## based on argument settings chosen by user.
